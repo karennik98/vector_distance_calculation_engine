@@ -1,12 +1,9 @@
 #pragma once
 
+#include "declarations.hpp"
+
 #include <vector>
 #include <fstream>
-
-namespace dce {
-    using fvector = std::vector<float>;
-    using fmatrix = std::vector<fvector>;
-} //  dce: distance calculation engine
 
 namespace dce {
     class csv_reader {
