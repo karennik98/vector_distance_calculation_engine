@@ -12,13 +12,13 @@ namespace dce {
         inline static const std::string ENDLINE="\n";
     };
 
-    class logger {
+    class log4dce {
     public:
-        logger(const logger&) = delete;
-        logger(logger&&) = delete;
+        log4dce(const log4dce&) = delete;
+        log4dce(log4dce&&) = delete;
 
     public:
-        static logger *get_root();
+        static log4dce *get_root();
 
     public:
         void info(const std::string &msg);
@@ -26,11 +26,11 @@ namespace dce {
         void error(const std::string &msg);
 
     protected:
-        logger() = default;
-        ~logger() = default;
+        log4dce() = default;
+        ~log4dce() = default;
 
     private:
-        static logger* root_;
+        static log4dce* root_;
     private:
         std::string file_path_;
         std::ofstream file_writer_;
