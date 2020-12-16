@@ -1,0 +1,6 @@
+{
+  "start": -100,
+  "end": 100,
+  "vector_lenght": 512,
+  "vectors_count": 1024
+}
