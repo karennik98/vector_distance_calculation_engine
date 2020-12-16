@@ -1,33 +1,25 @@
 #include <iostream>
 #include "input_generator.hpp"
-#include "logger.hpp"
+#include "log4dce.hpp"
+#include "seq_engine.hpp"
+#include "calculation_functions.hpp"
+#include "settings.hpp"
 
-int main() {
-    dce::input_generator gen;
-
-    gen.set_lenght(1024);
-    gen.set_count(2014);
-    gen.set_start(5);
-    gen.set_end(6);
-
-    dce::fmatrix data = gen.generate();
-
-    for (const auto &el_i : data) {
-        for (const auto &el_j : el_i) {
-            std::cout << el_j << " ";
-        }
-        std::cout << std::endl;
+int main(int argc, char **argv) {
+    dce::settings set;
+    try {
+        set.parse_args(argc, argv);
+    } catch (std::runtime_error& er) {
+        std::cout<<"[ERROR]: "<<er.what()<<std::endl;
+        exit(0);
     }
-    std::cout << std::endl;
-
-    auto logger = dce::logger::get_root();
-
-    logger->info(std::to_string(data.size()));
-    logger->warn(std::to_string(data.size()));
-    logger->error(std::to_string(data.size()));
-
-    std::cout<<"[INFO]: Matrix count: "<<data.size()<<std::endl;
-    std::cout<<"[INFO]: Matrix item lenght: "<<data.at(0).size()<<std::endl;
+    std::cout << "[INFO]: " << dce::settings::commands::help << " " << set.get_command_value(dce::settings::commands::help) << std::endl;
+    std::cout << "[INFO]: " << dce::settings::commands::mpi << " " << set.get_command_value(dce::settings::commands::mpi) << std::endl;
+    std::cout << "[INFO]: " << dce::settings::commands::cuda << " " << set.get_command_value(dce::settings::commands::cuda) << std::endl;
+    std::cout << "[INFO]: " << dce::settings::commands::seq << " " << set.get_command_value(dce::settings::commands::seq) << std::endl;
+    std::cout << "[INFO]: " << dce::settings::commands::multi << " " << set.get_command_value(dce::settings::commands::multi) << std::endl;
+    std::cout << "[INFO]: " << dce::settings::commands::dataset_csv << " " << set.get_command_value(dce::settings::commands::dataset_csv) << std::endl;
+    std::cout << "[INFO]: " << dce::settings::commands::query_csv << " " << set.get_command_value(dce::settings::commands::query_csv) << std::endl;
 
     return 0;
 }
