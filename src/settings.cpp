@@ -7,13 +7,15 @@ namespace dce {
 
     void settings::init_default_commands() noexcept {
         args_ = {
-                {commands::query_csv,   values::empty},
-                {commands::dataset_csv, values::empty},
-                {commands::multi,       values::off},
-                {commands::seq,         values::off},
-                {commands::mpi,         values::off},
-                {commands::cuda,        values::off},
-                {commands::help,        values::off}
+                {commands::query_csv,   values::empty   },
+                {commands::dataset_csv, values::empty   },
+                {commands::multi,       values::off     },
+                {commands::seq,         values::off     },
+                {commands::mpi,         values::off     },
+                {commands::cuda,        values::off     },
+                {commands::help,        values::off     },
+                {commands::print,       values::terminal},
+                {commands::help,        values::off     },
         };
     }
 
@@ -47,6 +49,9 @@ namespace dce {
             } else if (argv[i] == commands::multi) {
                 std::string value = argv[++i];
                 args_[commands::multi] = is_correct_value(value) ? value : values::invalid;
+            } else if (argv[i] == commands::print) {
+                std::string value = argv[++i];
+                args_[commands::print] = is_correct_value(value) ? value : values::terminal;
             } else {
                 throw std::runtime_error("Ivalid command ");
             }
@@ -71,6 +76,9 @@ namespace dce {
             count++;
         }
         if(args_.at(commands::mpi) == values::on) {
+            count++;
+        }
+        if(args_.at(commands::print) == values::file) {
             count++;
         }
 

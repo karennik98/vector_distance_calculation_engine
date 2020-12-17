@@ -33,6 +33,7 @@ namespace dce {
             inline static const std::string mpi="-mpi";
             inline static const std::string seq="-seq";
             inline static const std::string help="-help";
+            inline static const std::string print="-print";
         };
 
         struct values {
@@ -41,6 +42,8 @@ namespace dce {
             inline static const std::string csv = "csv";
             inline static const std::string empty = "";
             inline static const std::string invalid = "invalid";
+            inline static const std::string terminal = "terminal";
+            inline static const std::string file = "file";
         };
     private:
         std::unordered_map<std::string, std::string> args_;
