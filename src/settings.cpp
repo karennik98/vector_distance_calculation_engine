@@ -61,7 +61,7 @@ namespace dce {
     }
 
     bool settings::is_correct_value(const std::string &value) const {
-        return value == values::on || value == values::off || has_ending(value);
+        return value == values::on || value == values::off || has_ending(value) || value == values::file || value == values::terminal;
     }
 
     bool settings::is_correct_order() const {
@@ -76,9 +76,6 @@ namespace dce {
             count++;
         }
         if(args_.at(commands::mpi) == values::on) {
-            count++;
-        }
-        if(args_.at(commands::print) == values::file) {
             count++;
         }
 
