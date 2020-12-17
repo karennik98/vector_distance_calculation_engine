@@ -10,6 +10,7 @@
 #include "hamming_distance.hpp"
 #include "settings.hpp"
 #include "basic_json_reader.hpp"
+#include "timing.hpp"
 
 void print_into_terminal(const dce::fmatrix& data) {
     for(const auto& el_i : data) {
@@ -63,9 +64,17 @@ int main(int argc, char **argv) {
 
         dce::engine engine;
         if(settings.get_command_value(dce::settings::commands::seq) == dce::settings::values::on) {
+            dce::timing::tic();
             hamming_out = engine.run(query, dataset, dce::metrics::hamming::sequential_distance<float, dce::fvector::const_iterator>);
+            logger->info("Sequential hamming distance running time: " + std::to_string(dce::timing::toc()));
+
+            dce::timing::tic();
             l1_out = engine.run(query, dataset, dce::metrics::l1::sequential_distance<float, dce::fvector::const_iterator>);
+            logger->info("Sequential l1 distance running time: " + std::to_string(dce::timing::toc()));
+
+            dce::timing::tic();
             l2_out = engine.run(query, dataset, dce::metrics::l2::sequential_distance<float, dce::fvector::const_iterator>);
+            logger->info("Sequential l2 distance running time: " + std::to_string(dce::timing::toc()));
 
         } else if(settings.get_command_value(dce::settings::commands::mpi) == dce::settings::values::on) {
             hamming_out = engine.run(query, dataset, dce::metrics::hamming::mpi_distance<float, dce::fvector::const_iterator>);

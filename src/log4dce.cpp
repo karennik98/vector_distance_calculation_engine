@@ -1,4 +1,5 @@
 #include "log4dce.hpp"
+#include "timing.hpp"
 
 namespace dce {
     log4dce *log4dce::root_ = nullptr;
@@ -17,7 +18,7 @@ namespace dce {
     void log4dce::info(const std::string &msg) {
         file_writer_.open("./log.txt", std::ios::out | std::ios::app);
         if (file_writer_.is_open()) {
-            file_writer_ << messages::INFO << msg << messages::ENDLINE;
+            file_writer_ << messages::INFO << "[" << dce::timing::now() << "] " << msg << messages::ENDLINE;
             file_writer_.close();
             return;
         }
