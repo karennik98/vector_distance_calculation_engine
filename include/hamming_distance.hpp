@@ -6,6 +6,9 @@
 #include <future>
 #include <numeric>
 
+#include <cuda.h>
+#include <cuda_runtime.h>
+
 namespace dce {
     namespace metrics {
         namespace hamming {
@@ -76,42 +79,42 @@ namespace dce {
 //                return thrust::transform_reduce(first, last, l1, 0.0, add);
             }
 
-//            template<typename TValue>
-//            __global__ void distance(size_t size, TValue* vec_1, TValue* vec_2, TValue* distance) {
-//                int index = threadIdx.x + blockIdx.x * blockDim.x;
-//
-//                TValue count = 0.0f;
-//
-//                if (vec_1[index] != vec_2[index]) {
-//                    count++;
-//                }
-//
-//                distance = count / size;
+            template<typename TValue>
+            __global__ void distance(size_t size, TValue* vec_1, TValue* vec_2, TValue* distance) {
+                int index = threadIdx.x + blockIdx.x * blockDim.x;
 
-//            }
+                TValue count = 0.0f;
+
+                if (vec_1[index] != vec_2[index]) {
+                    count++;
+                }
+
+                distance = count / size;
+
+            }
 
             template<typename TValue, typename TVectorIter>
             TValue cuda_distance(size_t size, TVectorIter iter1, TVectorIter iter2) {
-//                TValue* host_vec_1 = new TValue[size];
-//                TValue* host_vec_2 = new TValue[size];
-//
-//                TValue* device_vec_1, device_vec_2;
-//                TValue* distance;
-//
-//                cudaMalloc((void **)&device_vec_1, size);
-//                cudaMalloc((void **)&device_vec_1, size);
-//                cudaMalloc((void **)&distance, sizeof(TValue));
-//
-//                for(int i = 0; i < size; ++i) {
-//                    host_vec_1[i] = iter1[i];
-//                    host_vec_2[i] = iter2[i];
-//                }
-//
-//                // Copy inputs to device
-//                cudaMemcpy(device_vec_1, host_vec_1, size, cudaMemcpyHostToDevice);
-//                cudaMemcpy(device_vec_2, host_vec_2, size, cudaMemcpyHostToDevice);
-//
-//                distance<TValue>()
+                TValue* host_vec_1 = new TValue[size];
+                TValue* host_vec_2 = new TValue[size];
+
+                TValue* device_vec_1, device_vec_2;
+                TValue* distance;
+
+                cudaMalloc((void **)&device_vec_1, size);
+                cudaMalloc((void **)&device_vec_1, size);
+                cudaMalloc((void **)&distance, sizeof(TValue));
+
+                for(int i = 0; i < size; ++i) {
+                    host_vec_1[i] = iter1[i];
+                    host_vec_2[i] = iter2[i];
+                }
+
+                // Copy inputs to device
+                cudaMemcpy(device_vec_1, host_vec_1, size, cudaMemcpyHostToDevice);
+                cudaMemcpy(device_vec_2, host_vec_2, size, cudaMemcpyHostToDevice);
+
+                distance<TValue>()
 
 
             }

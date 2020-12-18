@@ -12,6 +12,8 @@
 #include "basic_json_reader.hpp"
 #include "timing.hpp"
 
+#include "cuda_hamming_distance.cuh"
+
 void print_into_terminal(const dce::fmatrix& data) {
     for(const auto& el_i : data) {
         for(const auto& el_j : el_i) {
@@ -23,7 +25,19 @@ void print_into_terminal(const dce::fmatrix& data) {
 }
 
 void print_help() noexcept {
+    std::string msg = "Usage: dce [arguments] [value]\n"
+    "\n"
+    "Arguments:\n"
+    "-print			Print output on <csv> file or <terminal>. Default on terminal\n"
+    "-seq			Run sequential calculation engine <on>\n"
+    "-multi			Run sequential multithread engine <on>\n"
+    "-cuda			Run sequential cuda engine <on>\n"
+    "-mpi			Run sequential mpi engine <on>\n"
+    "-help			Print help message <on>\n"
+    "-dataset_csv	        Set dataset.csv file path. If not specify dataset matrix will be generate\n"
+    "-query_csv		Set query.csv file path. If not specify query matrix will be generate\n";
 
+    std::cout<<msg<<std::endl;
 }
 
 int main(int argc, char **argv) {
@@ -77,9 +91,9 @@ int main(int argc, char **argv) {
             logger->info("Sequential l2 distance running time: " + std::to_string(dce::timing::toc()));
 
         } else if(settings.get_command_value(dce::settings::commands::mpi) == dce::settings::values::on) {
-            hamming_out = engine.run(query, dataset, dce::metrics::hamming::mpi_distance<float, dce::fvector::const_iterator>);
-            l1_out = engine.run(query, dataset, dce::metrics::l1::mpi_distance<float, dce::fvector::const_iterator>);
-            l2_out = engine.run(query, dataset, dce::metrics::l2::mpi_distance<float, dce::fvector::const_iterator>);
+//            hamming_out = engine.run(query, dataset, dce::metrics::hamming::mpi_distance<float, dce::fvector::const_iterator>);
+//            l1_out = engine.run(query, dataset, dce::metrics::l1::mpi_distance<float, dce::fvector::const_iterator>);
+//            l2_out = engine.run(query, dataset, dce::metrics::l2::mpi_distance<float, dce::fvector::const_iterator>);
 
         } else if(settings.get_command_value(dce::settings::commands::multi) == dce::settings::values::on) {
             hamming_out = engine.run(query, dataset, dce::metrics::hamming::parallel_distance<float, dce::fvector::const_iterator>);
@@ -87,9 +101,9 @@ int main(int argc, char **argv) {
             l2_out = engine.run(query, dataset, dce::metrics::l2::parallel_distance<float, dce::fvector::const_iterator>);
 
         } else if(settings.get_command_value(dce::settings::commands::cuda) == dce::settings::values::on) {
-            hamming_out = engine.run(query, dataset, dce::metrics::hamming::cuda_distance<float, dce::fvector::const_iterator>);
-            l1_out = engine.run(query, dataset, dce::metrics::l1::cuda_distance<float, dce::fvector::const_iterator>);
-            l2_out = engine.run(query, dataset, dce::metrics::l2::cuda_distance<float, dce::fvector::const_iterator>);
+//            hamming_out = engine.run(query, dataset, dce::metrics::cuda::hamming::cuda_distance<float, dce::fvector::const_iterator>);
+//            l1_out = engine.run(query, dataset, dce::metrics::l1::cuda_distance<float, dce::fvector::const_iterator>);
+//            l2_out = engine.run(query, dataset, dce::metrics::l2::cuda_distance<float, dce::fvector::const_iterator>);
 
         } else {
             exit(-1);
