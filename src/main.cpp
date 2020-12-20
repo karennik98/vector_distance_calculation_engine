@@ -30,7 +30,7 @@ void print_help() noexcept {
     "Arguments:\n"
     "-print			Print output on <csv> file or <terminal>. Default on terminal\n"
     "-seq			Run sequential calculation engine <on>\n"
-    "-multi			Run sequential multithread engine <on>\n"
+    "-multi			Run sequential multithreading engine <on>\n"
     "-cuda			Run sequential cuda engine <on>\n"
     "-mpi			Run sequential mpi engine <on>\n"
     "-help			Print help message <on>\n"
@@ -110,9 +110,9 @@ int main(int argc, char **argv) {
         }
 
         if(settings.get_command_value(dce::settings::commands::print) == dce::settings::values::file) {
-            writer.write("./csv_files/output/hamming_sequential_distance.csv", hamming_out);
-            writer.write("./csv_files/output/l1_sequential_distance.csv", l1_out);
-            writer.write("./csv_files/output/l2_sequential_distance.csv", l2_out);
+            writer.write("./csv_files/output/1hamming_sequential_distance.csv", hamming_out);
+            writer.write("./csv_files/output/1l1_sequential_distance.csv", l1_out);
+            writer.write("./csv_files/output/1l2_sequential_distance.csv", l2_out);
         } else {
             print_into_terminal(hamming_out);
             print_into_terminal(l1_out);

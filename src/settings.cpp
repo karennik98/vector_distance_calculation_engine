@@ -1,4 +1,5 @@
 #include "settings.hpp"
+#include  <stdexcept>
 
 namespace dce {
     settings::settings() {
